@@ -21,13 +21,9 @@ const CreateGroup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Simple Popover logic (for date picker)
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  // A simple Calendar component for the date picker:
-  // (Here, you can replace with a 3rd party or a basic HTML date input)
-  // For demo, use native input type="date" and restrict min date.
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -72,7 +68,7 @@ const CreateGroup = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="flex flex-col min-h-screen  ">
       <main className="flex-grow py-12">
         <div className="container max-w-3xl mx-auto px-4">
           <div className="mb-8 text-center">
@@ -82,7 +78,7 @@ const CreateGroup = () => {
             </p>
           </div>
 
-          <div className="border border-gray-200 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-800">
+          <div className="border border-gray-200 dark:border-gray-700 rounded-md shadow-sm ">
             <header className="p-6 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-xl font-semibold mb-1">Group Information</h2>
               <p className="text-gray-600 dark:text-gray-400">
@@ -106,7 +102,7 @@ const CreateGroup = () => {
                 <input
                   type="text"
                   id="name"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded border border-gray-300 dark:border-gray-600   px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., Downtown Book Club"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -121,7 +117,7 @@ const CreateGroup = () => {
                 </label>
                 <select
                   id="category"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   required
@@ -144,7 +140,7 @@ const CreateGroup = () => {
                 </label>
                 <textarea
                   id="description"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2   focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Describe your group, its purpose, and what members can expect"
                   rows={4}
                   value={description}
@@ -161,7 +157,7 @@ const CreateGroup = () => {
                 <input
                   type="text"
                   id="location"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., Central Park, NYC"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -180,7 +176,7 @@ const CreateGroup = () => {
                     id="maxMembers"
                     min={2}
                     max={100}
-                    className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2 text-gray-900  focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={maxMembers}
                     onChange={(e) => setMaxMembers(parseInt(e.target.value))}
                     required
@@ -194,8 +190,8 @@ const CreateGroup = () => {
                   <button
                     type="button"
                     onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                    className={`w-full flex items-center justify-start gap-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      !startDate ? "text-gray-400 dark:text-gray-500" : ""
+                    className={`w-full flex items-center justify-start gap-2 rounded border border-gray-300 dark:border-gray-600  px-3 py-2  focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      !startDate ? "text-gray-400 " : ""
                     }`}
                     id="startDate"
                   >
@@ -211,7 +207,7 @@ const CreateGroup = () => {
                     <div className="absolute z-10 mt-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded shadow-lg p-2">
                       <input
                         type="date"
-                        className="w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 rounded px-2 py-1 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full rounded px-2 py-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={
                           startDate
                             ? format(new Date(startDate), "yyyy-MM-dd")
@@ -236,12 +232,12 @@ const CreateGroup = () => {
                 <input
                   type="url"
                   id="imageUrl"
-                  className="w-full rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded border border-gray-300 dark:border-gray-600   px-3 py-2  focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="https://example.com/image.jpg"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs">
                   Add an image that represents your group. If left empty, a
                   default image will be used.
                 </p>
