@@ -257,7 +257,7 @@ const CreateGroup = () => {
                       value={user?.name || ""}
                       readOnly
                       disabled
-                      className="w-full rounded border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-gray-600 dark:text-gray-400 cursor-not-allowed"
+                      className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2   cursor-not-allowed"
                     />
                   </div>
                   <div className="flex flex-col space-y-1">
@@ -270,7 +270,7 @@ const CreateGroup = () => {
                       value={user?.email || ""}
                       readOnly
                       disabled
-                      className="w-full rounded border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-gray-600 dark:text-gray-400 cursor-not-allowed"
+                      className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2 cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -281,14 +281,14 @@ const CreateGroup = () => {
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded text-gray-700  hover:text-gray-100  hover:bg-gray-700 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className={`px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`px-4 py-2 rounded text-white bg-[#F98334] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   {isLoading ? "Creating..." : "Create Group"}
                 </button>
