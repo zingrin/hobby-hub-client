@@ -1,26 +1,38 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-
 import ThemeToggle from "../Components/ThemeToggle";
-import {
-  Home,
-  LogOut,
-  Menu,
-  Plus,
-  User,
-  Users,
-} from "lucide-react";
+import { Home, LogOut, Menu, Plus, User, Users } from "lucide-react";
 import AuthContext from "../Context/Context/Contex";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef();
 
   const handleLogout = () => {
     logout();
     navigate("/");
   };
+
+  // Close mobile dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -49,43 +61,23 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex md:items-center md:gap-6">
-          <Link
-            to="/"
-            className="text-sm font-medium hover:text-hobbyhub-600 transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            to="/groups"
-            className="text-sm font-medium hover:text-hobbyhub-600 transition-colors"
-          >
-            All Groups
-          </Link>
+          <Link to="/" className="text-sm font-medium hover:text-hobbyhub-600 transition-colors">Home</Link>
+          <Link to="/groups" className="text-sm font-medium hover:text-hobbyhub-600 transition-colors">All Groups</Link>
           {user && (
             <>
-              <Link
-                to="/create-group"
-                className="text-sm font-medium hover:text-hobbyhub-600 transition-colors"
-              >
-                Create Group
-              </Link>
-              <Link
-                to="/my-groups"
-                className="text-sm font-medium hover:text-hobbyhub-600 transition-colors"
-              >
-                My Groups
-              </Link>
+              <Link to="/create-group" className="text-sm font-medium hover:text-hobbyhub-600 transition-colors">Create Group</Link>
+              <Link to="/my-groups" className="text-sm font-medium hover:text-hobbyhub-600 transition-colors">My Groups</Link>
             </>
           )}
         </nav>
 
-        {/* Right side */}
+        {/* Right Side */}
         <div className="flex items-center gap-4">
           <ThemeToggle />
 
+          {/* User Avatar & Dropdown */}
           {user ? (
             <div style={{ position: "relative" }}>
-              {/* Avatar Button */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="User menu"
@@ -122,15 +114,14 @@ const Navbar = () => {
                       justifyContent: "center",
                       fontWeight: "bold",
                       color: "#555",
-                      userSelect: "none",
                     }}
                   >
-                    {user.name.substring(0, 2).toUpperCase()}
+                {user?.displayName?.substring(0, 2).toUpperCase()}
                   </div>
                 )}
               </button>
 
-              {/* Dropdown */}
+              {/* Desktop Dropdown */}
               {isOpen && (
                 <div
                   style={{
@@ -139,113 +130,33 @@ const Navbar = () => {
                     marginTop: 8,
                     width: 220,
                     background: "white",
-                    boxShadow:
-                      "0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06)",
+                    boxShadow: "0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06)",
                     borderRadius: 6,
                     zIndex: 1000,
                   }}
                 >
-                  <div
-                    style={{
-                      padding: 12,
-                      borderBottom: "1px solid #eee",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontWeight: "600",
-                        fontSize: 14,
-                        margin: 0,
-                      }}
-                    >
-                      {user.name}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 12,
-                        color: "#666",
-                        margin: 0,
-                      }}
-                    >
-                      {user.email}
-                    </p>
+                  <div style={{ padding: 12, borderBottom: "1px solid #eee" }}>
+                    <p style={{ fontWeight: "600", fontSize: 14, margin: 0 }}>{user.name}</p>
+                    <p style={{ fontSize: 12, color: "#666", margin: 0 }}>{user.email}</p>
                   </div>
-                  <nav
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      padding: "8px 0",
-                    }}
-                  >
-                    <Link
-                      to="/my-groups"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "8px 12px",
-                        textDecoration: "none",
-                        color: "black",
-                        fontSize: 14,
-                      }}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <User style={{ marginRight: 8, width: 16, height: 16 }} />
-                      My Groups
-                    </Link>
-                    <Link
-                      to="/create-group"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "8px 12px",
-                        textDecoration: "none",
-                        color: "black",
-                        fontSize: 14,
-                      }}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <Plus style={{ marginRight: 8, width: 16, height: 16 }} />
-                      Create Group
-                    </Link>
+                  <nav style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
+                    <Link to="/my-groups" onClick={() => setIsOpen(false)} style={linkStyle}><User style={iconStyle} />My Groups</Link>
+                    <Link to="/create-group" onClick={() => setIsOpen(false)} style={linkStyle}><Plus style={iconStyle} />Create Group</Link>
                     <hr style={{ margin: "8px 0", borderColor: "#eee" }} />
-                    <button
-                    className="bg-[#F98334]"
-                      onClick={() => {
-                        handleLogout();
-                        setIsOpen(false);
-                      }}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "8px 12px",
-                        width: "100%",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                        fontSize: 14,
-                        color: "black",
-                        textAlign: "left",
-                      }}
-                    >
-                      <LogOut
-                        style={{ marginRight: 8, width: 16, height: 16 }}
-                      />
-                      Log out
+                    <button onClick={() => { handleLogout(); setIsOpen(false); }} style={buttonStyle}>
+                      <LogOut style={iconStyle} />Log out
                     </button>
                   </nav>
                 </div>
               )}
             </div>
           ) : (
-            <Link
-              to="/login"
-              className="hidden  md:inline-block px-4 py-2 rounded-md bg-primary text-white bg-[#F98334]"
-            >
+            <Link to="/login" className="hidden md:inline-block px-4 py-2 rounded-md bg-primary text-white bg-[#F98334]">
               Log in
             </Link>
           )}
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <button
             aria-label="Toggle menu"
             onClick={() => setIsOpen(!isOpen)}
@@ -254,9 +165,10 @@ const Navbar = () => {
             <Menu style={{ width: 24, height: 24 }} />
           </button>
 
-          {/* Mobile menu panel */}
+          {/* Mobile Dropdown Menu */}
           {isOpen && (
             <div
+              ref={menuRef}
               style={{
                 position: "fixed",
                 top: 0,
@@ -264,90 +176,32 @@ const Navbar = () => {
                 height: "100vh",
                 width: 280,
                 background: "white",
-                boxShadow:
-                  "-4px 0 8px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.06)",
+                boxShadow: "-4px 0 8px rgba(0,0,0,0.1), -1px 0 2px rgba(0,0,0,0.06)",
                 padding: 20,
                 display: "flex",
                 flexDirection: "column",
                 zIndex: 1500,
               }}
             >
-              <nav
-                style={{ display: "flex", flexDirection: "column", gap: 16 }}
-              >
-                <Link
-                  to="/"
-                  onClick={() => setIsOpen(false)}
-                  style={{ display: "flex", alignItems: "center", gap: 8 }}
-                >
-                  <Home style={{ width: 16, height: 16 }} />
-                  Home
-                </Link>
-                <Link
-                  to="/groups"
-                  onClick={() => setIsOpen(false)}
-                  style={{ display: "flex", alignItems: "center", gap: 8 }}
-                >
-                  <Users style={{ width: 16, height: 16 }} />
-                  All Groups
-                </Link>
-
+              <nav style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <Link to="/" onClick={() => setIsOpen(false)} style={navItemStyle}><Home style={iconStyle} />Home</Link>
+                <Link to="/groups" onClick={() => setIsOpen(false)} style={navItemStyle}><Users style={iconStyle} />All Groups</Link>
                 {user ? (
                   <>
-                    <Link
-                      to="/create-group"
-                      onClick={() => setIsOpen(false)}
-                      style={{ display: "flex", alignItems: "center", gap: 8 }}
-                    >
-                      <Plus style={{ width: 16, height: 16 }} />
-                      Create Group
-                    </Link>
-                    <Link
-                      to="/my-groups"
-                      onClick={() => setIsOpen(false)}
-                      style={{ display: "flex", alignItems: "center", gap: 8 }}
-                    >
-                      <User style={{ width: 16, height: 16 }} />
-                      My Groups
-                    </Link>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsOpen(false);
-                      }}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                        padding: "8px 12px",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                        fontSize: 14,
-                        color: "black",
-                        justifyContent: "flex-start",
-                      }}
-                    >
-                      <LogOut style={{ width: 16, height: 16 }} />
-                      Log out
-                    </button>
+                    <Link to="/create-group" onClick={() => setIsOpen(false)} style={navItemStyle}><Plus style={iconStyle} />Create Group</Link>
+                    <Link to="/my-groups" onClick={() => setIsOpen(false)} style={navItemStyle}><User style={iconStyle} />My Groups</Link>
+                    <button onClick={() => { handleLogout(); setIsOpen(false); }} style={navItemStyle}><LogOut style={iconStyle} />Log out</button>
                   </>
                 ) : (
-                  <Link
-                    to="/login"
-                    onClick={() => setIsOpen(false)}
-                    style={{
-                      padding: "8px 12px",
-                      backgroundColor: "#007bff",
-                      color: "white",
-                      borderRadius: 4,
-                      textAlign: "center",
-                      textDecoration: "none",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Log in
-                  </Link>
+                  <Link to="/login" onClick={() => setIsOpen(false)} style={{
+                    padding: "8px 12px",
+                    backgroundColor: "#F98334",
+                    color: "white",
+                    borderRadius: 4,
+                    textAlign: "center",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                  }}>Log in</Link>
                 )}
               </nav>
             </div>
@@ -357,5 +211,38 @@ const Navbar = () => {
     </header>
   );
 };
+
+// 🔧 Shared inline styles
+const linkStyle = {
+  display: "flex",
+  alignItems: "center",
+  padding: "8px 12px",
+  textDecoration: "none",
+  color: "black",
+  fontSize: 14,
+};
+
+const buttonStyle = {
+  ...linkStyle,
+  width: "100%",
+  background: "transparent",
+  border: "none",
+  cursor: "pointer",
+  textAlign: "left",
+};
+
+const navItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: 8,
+  padding: "8px 12px",
+  background: "transparent",
+  border: "none",
+  color: "black",
+  fontSize: 14,
+  cursor: "pointer",
+};
+
+const iconStyle = { marginRight: 8, width: 16, height: 16 };
 
 export default Navbar;

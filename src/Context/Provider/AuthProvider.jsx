@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const creteUserWithGoogle = (provider) => {
+const creteUserWithGoogle = (provider) => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };

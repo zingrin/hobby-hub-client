@@ -1,19 +1,22 @@
-import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import {  useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { AlertCircle } from "lucide-react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import auth from "../Firebase/Firebase.init";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { createUserWithEmailAndPassword } from "firebase/auth/cordova";
+const provider = new GoogleAuthProvider();
 
-
-import { AlertCircle } from 'lucide-react';
-import AuthContext from '../Context/Context/Contex';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, loginWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,16 +26,19 @@ const Register = () => {
 
     try {
       if (password.length < 6)
-        throw new Error('Password must be at least 6 characters');
+        throw new Error("Password must be at least 6 characters");
       if (!/[A-Z]/.test(password))
-        throw new Error('Password must contain at least one uppercase letter');
+        throw new Error("Password must contain at least one uppercase letter");
       if (!/[a-z]/.test(password))
-        throw new Error('Password must contain at least one lowercase letter');
+        throw new Error("Password must contain at least one lowercase letter");
 
-      await register(name, email, password, photoURL);
-      navigate('/');
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user);
+     
+
+      navigate("/");
     } catch (err) {
-      setError(err.message || 'Failed to register');
+      setError(err.message || "Failed to register");
     } finally {
       setIsLoading(false);
     }
@@ -43,10 +49,18 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      await loginWithGoogle();
-      navigate('/');
+      await signInWithPopup(auth, provider);
+      navigate("/");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (err) {
-      setError(err.message || 'Failed to login with Google');
+      toast.error(err.message || "Failed to login with Google");
+      setError(err.message || "Failed to login with Google");
     } finally {
       setIsLoading(false);
     }
@@ -85,6 +99,7 @@ const Register = () => {
                 required
               />
             </div>
+        
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -145,7 +160,7 @@ const Register = () => {
               className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
               disabled={isLoading}
             >
-              {isLoading ? 'Creating account...' : 'Create account'}
+              {isLoading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
@@ -191,8 +206,11 @@ const Register = () => {
           </button>
 
           <div className="mt-6 text-center text-sm text-gray-500">
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-600 font-medium hover:underline">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-blue-600 font-medium hover:underline"
+            >
               Log in
             </Link>
           </div>
