@@ -1,10 +1,11 @@
 import React from 'react';
-
+import HeroCarousel from '../Components/HeroCarousel';
+import Index from './Index';
 const Home = () => {
     return (
-        <div>
-            home page
-        </div>
+        <>
+          <Index />
+        </>
     );
 };
 
