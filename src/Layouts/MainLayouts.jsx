@@ -6,15 +6,15 @@ import Navbar from "../Components/Navbar";
 const MainLayouts = () => {
   return (
     <>
-      <header>
+      <header className="max-w-11/12 mx-auto">
         <nav>
             <Navbar />
         </nav>
-      </header>
-      <main>
+      </header >
+      <main className="max-w-11/12 mx-auto">
         <Outlet />
       </main>
-      <footer>
+      <footer className="px-3 sm:px-6">
        <Footer />
       </footer>
     </>

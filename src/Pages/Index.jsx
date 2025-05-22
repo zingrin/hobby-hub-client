@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-import { ArrowRight, BookOpen, Users, MapPin } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, MapPin, Users2 } from 'lucide-react';
 import { use } from 'react';
 import AuthContext from '../Context/Context/Contex';
 import HeroCarousel from '../Components/HeroCarousel';
@@ -18,8 +18,8 @@ const Index = () => {
     .slice(0, 6);
 
   // Button styles similar to your custom Button component
-  const buttonBaseClasses = "inline-flex items-center justify-center px-6 py-3 rounded-lg text-lg font-semibold transition-colors duration-200";
-  const buttonPrimaryClasses = "bg-primary text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2";
+  const buttonBaseClasses = "inline-flex items-center justify-center px-6 py-3 rounded-lg text-lg font-semibold transition-colors  duration-200";
+  const buttonPrimaryClasses = "bg-[#F98334] text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -27,7 +27,7 @@ const Index = () => {
         <HeroCarousel />
 
         {/* Featured Groups Section */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16 ">
           <div className="container">
             <div className="mb-10 text-center">
               <h2 className="text-3xl font-bold mb-3">Featured Groups</h2>
@@ -53,7 +53,7 @@ const Index = () => {
                     role="button"
                   >
                     Explore All Groups
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 " />
                   </Link>
                 </div>
               </>
@@ -73,7 +73,7 @@ const Index = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center text-center p-6 rounded-lg border bg-card">
-                <div className="h-14 w-14 rounded-full hero-gradient text-white flex items-center justify-center mb-4">
+                <div className="h-14 w-14 rounded-full hero-gradient text-[#F98334] flex items-center justify-center mb-4">
                   <BookOpen className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Discover</h3>
@@ -83,8 +83,9 @@ const Index = () => {
               </div>
 
               <div className="flex flex-col items-center text-center p-6 rounded-lg border bg-card">
-                <div className="h-14 w-14 rounded-full hero-gradient text-white flex items-center justify-center mb-4">
-                  <Users className="h-6 w-6" />
+                <div className="h-14 w-14 rounded-full hero-gradient text-[#F98334] flex items-center justify-center mb-4">
+                  <Users className="h-6 w-6"  />
+                  
                 </div>
                 <h3 className="text-xl font-bold mb-2">Join</h3>
                 <p className="text-muted-foreground">
@@ -93,7 +94,7 @@ const Index = () => {
               </div>
 
               <div className="flex flex-col items-center text-center p-6 rounded-lg border bg-card">
-                <div className="h-14 w-14 rounded-full hero-gradient text-white flex items-center justify-center mb-4">
+                <div className="h-14 w-14 rounded-full hero-gradient text-[#F98334] flex items-center justify-center mb-4">
                   <MapPin className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Meet Up</h3>
@@ -126,7 +127,7 @@ const Index = () => {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16 ">
           <div className="container">
             <div className="mb-12 text-center">
               <h2 className="text-3xl font-bold mb-3">What Our Members Say</h2>
