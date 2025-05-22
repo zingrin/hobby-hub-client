@@ -59,7 +59,8 @@ const CreateGroup = () => {
       };
 
       const createdGroup = await createGroup(newGroup);
-      navigate(`/group/${createdGroup.id}`);
+      console.log(createdGroup);
+    
     } catch (err) {
       setError(err.message || "Failed to create group");
     } finally {
@@ -270,7 +271,7 @@ const CreateGroup = () => {
                       value={user?.email || ""}
                       readOnly
                       disabled
-                      className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2 cursor-not-allowed"
+                      className="w-full rounded border border-gray-300 dark:border-gray-600  px-3 py-2 text-gray-600 cursor-not-allowed"
                     />
                   </div>
                 </div>

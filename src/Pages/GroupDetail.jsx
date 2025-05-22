@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { format } from 'date-fns';
 import { ArrowLeft, Users, Calendar, MapPin, CalendarDays } from 'lucide-react';
-
 import AuthContext from '../Context/Context/Contex';
 import { useGroups } from '../Context/Context/GroupsContext';
 
@@ -43,7 +42,7 @@ const GroupDetail = () => {
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
+     
         <main className="flex-grow container py-8">
           <div className="space-y-8">
             <div className="flex items-center gap-2">
@@ -65,7 +64,7 @@ const GroupDetail = () => {
             </div>
           </div>
         </main>
-        <Footer />
+        
       </div>
     );
   }

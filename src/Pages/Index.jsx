@@ -1,21 +1,32 @@
 import { Link } from 'react-router';
 
 import { ArrowRight, BookOpen, Users, MapPin, Users2 } from 'lucide-react';
-import { use } from 'react';
+import { use, useEffect, useState } from 'react';
 import AuthContext from '../Context/Context/Contex';
 import HeroCarousel from '../Components/HeroCarousel';
 import GroupListSkeleton from '../Components/GroupCardSkeleton';
 import { useGroups } from '../Context/Context/GroupsContext';
+import { toast } from 'react-toastify';
 
 const Index = () => {
   const { groups, loading } = useGroups();
   const { user } = use(AuthContext);
-
-  // Filter active groups and limit to 6 for featured section
-  const featuredGroups = groups
-    .filter(group => new Date(group.startDate) > new Date())
-    .sort(() => 0.5 - Math.random()) // Random shuffle
-    .slice(0, 6);
+  const [loading, setLoading] = useState(false);
+const [featuredGroups, setFeaturedGroups] = useState([]);
+  useEffect(() => {
+    const loadFeaturedGroups = async () => {
+        setLoading(true);
+     try {
+        const res = await fetch('http://localhost:3000/groups/featured');
+        const data = await res.json();
+        setFeaturedGroups(data);
+     } catch (error) {
+        toast.error(error.message);
+     }
+     setLoading(false);
+    };
+    loadFeaturedGroups();
+  }, [groups]);
 
   // Button styles similar to your custom Button component
   const buttonBaseClasses = "inline-flex items-center justify-center px-6 py-3 rounded-lg text-lg font-semibold transition-colors  duration-200";
