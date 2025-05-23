@@ -32,19 +32,21 @@ export const GroupsProvider = ({ children }) => {
 
   // Load groups from localStorage on mount
   useEffect(() => {
+
     const loadGroups = () => {
+      setLoading(true);
       try {
-        const storedGroups = localStorage.getItem('hobbyhub-groups');
-        if (storedGroups) {
-          setGroups(JSON.parse(storedGroups));
-        } else {
-          setGroups(SAMPLE_GROUPS);
-          localStorage.setItem('hobbyhub-groups', JSON.stringify(SAMPLE_GROUPS));
-        }
+        fetch('https://hobby-hub-server-henna.vercel.app/groups')
+        .then(res => res.json())
+        .then(data => {
+          setGroups(data);
+        })
+        .catch(err => {
+          console.log(err); 
+        })
+       
       } catch (error) {
-        console.error('গ্রুপ লোড করতে সমস্যা হয়েছে:', error);
-        setGroups(SAMPLE_GROUPS);
-        localStorage.setItem('hobbyhub-groups', JSON.stringify(SAMPLE_GROUPS));
+       toast.error(error.message || 'গ্রুপ লোড করতে সমস্যা হয়েছে');
       } finally {
         setLoading(false);
       }
@@ -101,9 +103,11 @@ export const GroupsProvider = ({ children }) => {
 
     setLoading(true);
     try {
+     
+
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const index = groups.findIndex(group => group.id === id);
+      const index = groups.findIndex(group => group._id === id);
       if (index === -1) throw new Error('গ্রুপ পাওয়া যায়নি');
 
       if (groups[index].createdBy.id !== user.id) {
@@ -134,16 +138,14 @@ export const GroupsProvider = ({ children }) => {
 
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+     fetch(`https://hobby-hub-server-henna.vercel.app/groups/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+     })
 
-      const group = groups.find(group => group.id === id);
-      if (!group) throw new Error('গ্রুপ পাওয়া যায়নি');
-
-      if (group.createdBy.id !== user.id) {
-        throw new Error('শুধুমাত্র গ্রুপ তৈরি করা ব্যক্তি এটি মুছে ফেলতে পারবেন');
-      }
-
-      setGroups(prev => prev.filter(group => group.id !== id));
+     
       toast.success('গ্রুপ মুছে ফেলা হয়েছে!');
     } catch (error) {
       console.error('গ্রুপ ডিলিট করতে সমস্যা হয়েছে:', error);

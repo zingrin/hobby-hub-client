@@ -12,7 +12,7 @@ function UpdateGroup() {
   const updateGroup = window.updateGroup || (async () => {});
   const user = window.user || null;
 
-  const group = groups.find((g) => g.id === id);
+  const group = groups.find((g) => g._id === id);
 
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
@@ -23,7 +23,7 @@ function UpdateGroup() {
   const [imageUrl, setImageUrl] = useState('');
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+console.log(group)
   useEffect(() => {
     if (group) {
       setName(group.name);
@@ -39,19 +39,20 @@ function UpdateGroup() {
   if (groupsLoading) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
+      
         <main className="flex-grow container py-12 flex justify-center items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
         </main>
-        <Footer />
+   
       </div>
     );
   }
 
+
   if (!group) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
+    
         <main className="flex-grow container py-12 text-center">
           <h1 className="text-3xl font-bold mb-4">Group Not Found</h1>
           <p className="text-gray-500 mb-8">
@@ -64,7 +65,7 @@ function UpdateGroup() {
             Back to My Groups
           </button>
         </main>
-        <Footer />
+     
       </div>
     );
   }
