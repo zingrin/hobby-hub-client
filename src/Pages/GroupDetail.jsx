@@ -72,7 +72,6 @@ const GroupDetail = () => {
   if (!group) {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
         <main className="flex-grow container py-12 text-center">
           <h1 className="text-3xl font-bold mb-4">Group Not Found</h1>
           <p className="text-gray-500 dark:text-gray-400 mb-8">
@@ -85,14 +84,14 @@ const GroupDetail = () => {
             Browse All Groups
           </button>
         </main>
-        <Footer />
+    
       </div>
     );
   }
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+     
       <main className="flex-grow">
         <div className="container py-8">
           <div className="space-y-8">
@@ -147,9 +146,9 @@ const GroupDetail = () => {
                     {group.members.map((member) => (
                       <div key={member.id} className="flex flex-col items-center gap-1 text-center">
                         <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-white font-bold uppercase">
-                          {member.name.substring(0, 2)}
+                          {member?.name?.substring(0, 2)}
                         </div>
-                        <span className="text-xs text-gray-700 dark:text-gray-300">{member.name}</span>
+                        <span className="text-xs text-gray-700 dark:text-gray-300">{member?.name}</span>
                       </div>
                     ))}
                   </div>
@@ -268,7 +267,7 @@ const GroupDetail = () => {
           </div>
         </div>
       </main>
-      <Footer />
+     
     </div>
   );
 };

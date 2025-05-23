@@ -9,7 +9,7 @@ import { useGroups } from '../Context/Context/GroupsContext';
 import { toast } from 'react-toastify';
 
 const Index = () => {
-  const { groups, loading } = useGroups();
+  const { groups } = useGroups();
   const { user } = use(AuthContext);
   const [loading, setLoading] = useState(false);
 const [featuredGroups, setFeaturedGroups] = useState([]);

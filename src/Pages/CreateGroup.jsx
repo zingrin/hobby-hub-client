@@ -5,6 +5,7 @@ import { CalendarIcon, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { useGroups,HOBBY_CATEGORIES } from "../Context/Context/GroupsContext";
 import AuthContext from "../Context/Context/Contex";
+import { toast } from "react-toastify";
 
 const CreateGroup = () => {
   const { user } = use(AuthContext);
@@ -60,6 +61,19 @@ const CreateGroup = () => {
 
       const createdGroup = await createGroup(newGroup);
       console.log(createdGroup);
+      fetch('https://hobby-hub-server-henna.vercel.app/groups', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(createdGroup),
+      }).then((data) => {
+        console.log(data);
+        toast.success('Group created successfully');
+       
+      }).catch((err) => {
+        toast.error(err.message || "Failed to create group");
+      });
     
     } catch (err) {
       setError(err.message || "Failed to create group");

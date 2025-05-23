@@ -4,6 +4,7 @@ import { useGroups, HOBBY_CATEGORIES } from '../Context/Context/GroupsContext';
 import { Search } from 'lucide-react';
 import { useSearchParams } from 'react-router';
 import GroupListSkeleton from '../Components/GroupCardSkeleton';
+import GroupCard from '../Components/GroupCard';
 
 const GroupList = () => {
   const { groups, loading } = useGroups();

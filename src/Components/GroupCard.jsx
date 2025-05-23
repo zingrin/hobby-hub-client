@@ -45,7 +45,7 @@ const GroupCard = ({ group, showCreator = true }) => {
         {showCreator && (
           <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
             <div className="h-6 w-6 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-xs font-semibold text-gray-600 dark:text-gray-400">
-              {group.createdBy.name.substring(0, 2).toUpperCase()}
+              {/* {group.createdBy.name.substring(0, 2).toUpperCase()} */}
             </div>
             <span className="text-xs">{group.createdBy.name}</span>
           </div>
